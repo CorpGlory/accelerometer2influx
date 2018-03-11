@@ -26,6 +26,8 @@ class CustomEventListener : SensorEventListener {
     val thread: ThreadUDP = ThreadUDP()
 
     class ThreadUDP : Thread() {
+
+
         val s: DatagramSocket = DatagramSocket()
         val local: InetAddress = InetAddress.getByName("209.205.120.226")
         val buffer: Array<String> = Array(5, {""})
