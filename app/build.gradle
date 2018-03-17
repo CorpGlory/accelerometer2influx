@@ -7,7 +7,7 @@ apply plugin: 'kotlin-android-extensions'
 android {
     compileSdkVersion 26
     defaultConfig {
-        applicationId "corpglory.aihack"
+        applicationId "corpglory.android.accelerometer"
         minSdkVersion 24
         targetSdkVersion 26
         versionCode 1

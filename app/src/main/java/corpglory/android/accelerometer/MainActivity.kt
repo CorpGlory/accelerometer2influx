@@ -14,13 +14,12 @@ import org.jetbrains.anko.textView
 import org.jetbrains.anko.verticalLayout
 
 
-class MainActivity : AppCompatActivity() {
-
+class MainActivity : AppCompatActivity(), AccelerometerEventListener {
     lateinit var sensorManager: SensorManager
-    var customEventListener: CustomEventListener? = null
+    var accelerometerEventListener: AccelerometerHandler? = null
+    var database: DatabaseConnection? = null
 
     lateinit var sensor: Sensor
-    lateinit var graphanaService: GraphanaService
 
     lateinit var outView: TextView
 
@@ -53,16 +52,36 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun startListen(addr: String) {
+        val host = addr.substring(0, addr.indexOf(':'))
+        val port = Integer.parseInt(addr.substring(addr.indexOf(':') + 1))
 
-        customEventListener = CustomEventListener(this@MainActivity, addr, outView)
-        if (customEventListener != null) {
-            sensorManager.unregisterListener(customEventListener)
+        accelerometerEventListener = AccelerometerHandler(this)
+
+
+        database = DatabaseConnection(host, port)
+        database?.start()
+
+        if (accelerometerEventListener != null) {
+            sensorManager.unregisterListener(accelerometerEventListener)
         }
-        sensorManager.registerListener(customEventListener, sensor, SensorManager.SENSOR_DELAY_NORMAL)
+        sensorManager.registerListener(accelerometerEventListener, sensor, SensorManager.SENSOR_DELAY_NORMAL)
     }
 
     override fun onPause() {
         super.onPause()
-        sensorManager.unregisterListener(customEventListener)
+        sensorManager.unregisterListener(accelerometerEventListener)
     }
+
+    override fun onStateReceived(state: AccelerometerState) {
+        val result = "vals " +
+                "k0=${state.x.format(2).replaceFirst(",", ".")}" +
+                ",k1=${state.y.format(2).replaceFirst(",", ".")}" +
+                ",k2=${state.z.format(2).replaceFirst(",", ".")}" +
+                " ${state.time}\n"
+
+        outView.text = result
+        database?.sendMsg(result)
+    }
+
+    fun Double.format(digits: Int) = java.lang.String.format("%.${digits}f", this)
 }
