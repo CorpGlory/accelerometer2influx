@@ -8,9 +8,7 @@ import android.widget.TextView
 import io.reactivex.subjects.PublishSubject
 import android.R.attr.port
 import android.util.Log
-import java.net.DatagramPacket
-import java.net.DatagramSocket
-import java.net.InetAddress
+import java.net.*
 
 
 /**
@@ -22,39 +20,29 @@ class CustomEventListener : SensorEventListener {
 
     val context: Context
     val textView: TextView
-    val publishSubject: PublishSubject<String>
-    val thread: ThreadUDP = ThreadUDP()
+    val thread: ThreadUDP
 
-    class ThreadUDP : Thread() {
-
+    class ThreadUDP : Thread {
 
         val s: DatagramSocket = DatagramSocket()
-        val local: InetAddress = InetAddress.getByName("209.205.120.226")
+        val socketAddress: SocketAddress
         val buffer: Array<String> = Array(5, {""})
-//        val buffer: ByteArray = ByteArray(53 * 6)
-//        var buffSize = 0
-
         var i = 0
 
         var msg: String = ""
 
-//        fun appendToBuffer(msg: String) {
-//            val bytes = msg.toByteArray()
-//            for(j in bytes.indices) {
-//                buffer[53 * i  + j] = bytes[j]
-//            }
-//            buffSize += bytes.size
-//            i += 1
-//
-//        }
+        constructor(addr: String) : super() {
+            val host = addr.substring(0, addr.indexOf(':'))
+            val port = Integer.parseInt(addr.substring(addr.indexOf(':') + 1))
 
+            socketAddress = InetSocketAddress(host, port)
+        }
 
 
         fun appendToBuffer(msg: String) {
-            buffer[i] = msg
+            // buffer[i] = msg
             i += 1
         }
-
 
 
         override fun run() {
@@ -72,27 +60,21 @@ class CustomEventListener : SensorEventListener {
         private fun sendUDP(msg: String) {
             val msg_lenght = msg.length
             val message = msg.toByteArray()
-            val p = DatagramPacket(message, msg_lenght, local, 8089)
+            val p = DatagramPacket(message, msg_lenght, socketAddress)
             s.send(p)
-            Log.i("udp sent", msg)
         }
-
-//        private fun sendUDP(buffer: ByteArray) {
-//
-//            val p = DatagramPacket(buffer, buffer.size, local, 8089)
-//            s.send(p)
-////            Log.i("udp sent", ms)
-//        }
     }
 
 
-    constructor(context: Context, textView: TextView, publishSubject: PublishSubject<String>) {
+    constructor(context: Context, addr: String, textView: TextView) {
+        Log.i("here1", "here1")
         this.context = context
         this.textView = textView
-        this.publishSubject = publishSubject
+        // this.publishSubject = publishSubject
         this.gravity = DoubleArray(3)
         this.linear_acceleration = DoubleArray(3)
 
+        thread = ThreadUDP(addr)
         thread.start()
     }
 

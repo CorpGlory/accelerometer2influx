@@ -33,18 +33,12 @@ class MainActivity : AppCompatActivity() {
     lateinit var graphanaService: GraphanaService
 
     lateinit var outView: TextView
-    lateinit var publishSubject: PublishSubject<String>
-    lateinit var retrofit: Retrofit
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        setContentView(R.layout.activity_main)
-
-
-
 
         verticalLayout {
-            val addrView = editText("http://209.205.120.226:8086") {
+            val addrView = editText("209.205.120.226:8086") {
                 hint = "Name"
                 textSize = 24f
             }
@@ -61,38 +55,16 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-
-
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
 
         if (sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER) != null){
             sensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER)
         }
-
-        startListen("http://209.205.120.226:8086")
     }
 
     private fun startListen(addr: String) {
-        retrofit = Retrofit.Builder()
-                .baseUrl(addr)
-                .addConverterFactory(ScalarsConverterFactory.create())
-                .build()
 
-
-        graphanaService = retrofit.create(GraphanaService::class.java)
-
-
-        val subject = PublishSubject.create<String>()
-        subject
-                .observeOn(Schedulers.io())
-                .subscribe {
-                    val response = graphanaService.push(it).execute()
-                    runOnUiThread {
-                        Log.i("here", response.message())
-                    }
-                }
-
-        customEventListener = CustomEventListener(this@MainActivity, outView, subject)
+        customEventListener = CustomEventListener(this@MainActivity, addr, outView)
         if (customEventListener != null) {
             sensorManager.unregisterListener(customEventListener)
         }
