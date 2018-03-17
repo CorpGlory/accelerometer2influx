@@ -1,12 +1,10 @@
-package corpglory.aihack
+package corpglory.android.accelerometer
 
 import android.content.Context
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.widget.TextView
-import io.reactivex.subjects.PublishSubject
-import android.R.attr.port
 import android.util.Log
 import java.net.*
 

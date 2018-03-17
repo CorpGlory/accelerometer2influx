@@ -1,4 +1,4 @@
-package corpglory.aihack
+package corpglory.android.accelerometer
 
 import org.junit.Test
 

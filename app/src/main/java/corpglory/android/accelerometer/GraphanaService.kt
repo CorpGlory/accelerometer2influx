@@ -1,4 +1,4 @@
-package corpglory.aihack
+package corpglory.android.accelerometer
 
 import okhttp3.ResponseBody
 import retrofit2.Call

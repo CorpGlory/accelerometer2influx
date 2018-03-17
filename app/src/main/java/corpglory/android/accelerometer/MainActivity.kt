@@ -1,22 +1,12 @@
-package corpglory.aihack
+package corpglory.android.accelerometer
 
 import android.content.Context
 import android.hardware.Sensor
 import android.hardware.SensorManager
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.TextView
-import io.reactivex.Scheduler
-import io.reactivex.Single
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.converter.scalars.ScalarsConverterFactory
-import io.reactivex.subjects.PublishSubject
 import org.jetbrains.anko.button
 import org.jetbrains.anko.editText
 import org.jetbrains.anko.sdk25.coroutines.onClick
