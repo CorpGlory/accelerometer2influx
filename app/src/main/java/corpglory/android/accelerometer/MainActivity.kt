@@ -100,14 +100,18 @@ class MainActivity : AppCompatActivity(), AccelerometerEventListener {
     }
 
     override fun onStateReceived(state: AccelerometerState) {
-        val result = "vals " +
-                "k0=${state.x.format(2).replaceFirst(",", ".")}" +
-                ",k1=${state.y.format(2).replaceFirst(",", ".")}" +
-                ",k2=${state.z.format(2).replaceFirst(",", ".")}" +
+        val text = "x=${state.x.format(3).replaceFirst(",", ".")}\n" +
+                "y=${state.y.format(3).replaceFirst(",", ".")}\n" +
+                "z=${state.z.format(3).replaceFirst(",", ".")}"
+        outView.text = text
+
+        val message = "vals " +
+                "x=${state.x.format(3).replaceFirst(",", ".")}" +
+                ",y=${state.y.format(3).replaceFirst(",", ".")}" +
+                ",z=${state.z.format(3).replaceFirst(",", ".")}" +
                 " ${state.time}\n"
 
-        outView.text = result
-        database?.sendMsg(result)
+        database?.sendMsg(message)
     }
 
     fun Double.format(digits: Int) = java.lang.String.format("%.${digits}f", this)
