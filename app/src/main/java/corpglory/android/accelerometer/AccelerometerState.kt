@@ -1,7 +1,7 @@
 package corpglory.android.accelerometer
 
 /**
- * Created by evgentu on 17.03.18.
+ * Created by evsluzh on 17.03.18.
  */
 class AccelerometerState {
     var x: Double = 0.0

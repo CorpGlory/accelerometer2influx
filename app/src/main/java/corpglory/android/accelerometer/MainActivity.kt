@@ -5,7 +5,9 @@ import android.hardware.Sensor
 import android.hardware.SensorManager
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
+import android.widget.EditText
 import android.widget.TextView
 import org.jetbrains.anko.button
 import org.jetbrains.anko.editText
@@ -20,27 +22,44 @@ class MainActivity : AppCompatActivity(), AccelerometerEventListener {
     var database: DatabaseConnection? = null
 
     lateinit var sensor: Sensor
-
     lateinit var outView: TextView
+    lateinit var addrText: EditText
+    lateinit var loginText: EditText
+    lateinit var passwordText: EditText
+    lateinit var dbNameText: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         verticalLayout {
-            val addrView = editText("209.205.120.226:8086") {
-                hint = "Name"
-                textSize = 24f
-            }
-
-            button("Start / refresh") {
-                textSize = 26f
-                onClick {
-                    startListen(addrView.text.toString())
-                }
-            }
-
             outView = textView("") {
                 id = View.generateViewId()
+                textSize = 26f
+            }
+            button("Start") {
+                textSize = 26f
+                onClick {
+                    startListen()
+                }
+            }
+            textView("InfluxDB settings") {
+                textSize = 26f
+            }
+            addrText = editText("") {
+                hint = "address"
+                textSize = 24f
+            }
+            loginText = editText("") {
+                hint = "login"
+                textSize = 24f
+            }
+            passwordText = editText("") {
+                hint = "password"
+                textSize = 24f
+            }
+            dbNameText = editText("") {
+                hint = "database"
+                textSize = 24f
             }
         }
 
@@ -51,14 +70,22 @@ class MainActivity : AppCompatActivity(), AccelerometerEventListener {
         }
     }
 
-    private fun startListen(addr: String) {
-        val host = addr.substring(0, addr.indexOf(':'))
-        val port = Integer.parseInt(addr.substring(addr.indexOf(':') + 1))
+    private fun startListen() {
+        var address = addrText.text.toString()
+        var login = loginText.text.toString()
+        var password = passwordText.text.toString()
+        var dbName = dbNameText.text.toString()
 
         accelerometerEventListener = AccelerometerHandler(this)
 
+        try {
+            database = DatabaseConnection(address, login, password, dbName)
 
-        database = DatabaseConnection(host, port)
+
+        } catch (e:Exception ) {
+            Log.i("db", e.toString())
+        }
+
         database?.start()
 
         if (accelerometerEventListener != null) {
