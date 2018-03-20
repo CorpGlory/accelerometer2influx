@@ -78,13 +78,7 @@ class MainActivity : AppCompatActivity(), AccelerometerEventListener {
 
         accelerometerEventListener = AccelerometerHandler(this)
 
-        try {
-            database = DatabaseConnection(address, login, password, dbName)
-
-
-        } catch (e:Exception ) {
-            Log.i("db", e.toString())
-        }
+        database = DatabaseConnection(address, login, password, dbName)
 
         database?.start()
 
