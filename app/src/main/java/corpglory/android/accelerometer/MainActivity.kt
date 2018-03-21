@@ -32,7 +32,7 @@ class MainActivity : AppCompatActivity(), AccelerometerEventListener {
         super.onCreate(savedInstanceState)
 
         verticalLayout {
-            outView = textView("") {
+            outView = textView("x=\ny=\nz=") {
                 id = View.generateViewId()
                 textSize = 26f
             }
@@ -105,7 +105,7 @@ class MainActivity : AppCompatActivity(), AccelerometerEventListener {
                 ",z=${state.z.format(3).replaceFirst(",", ".")}" +
                 " ${state.time}\n"
 
-        database?.sendMsg(message)
+        database?.sendMsg(state)
     }
 
     fun Double.format(digits: Int) = java.lang.String.format("%.${digits}f", this)
