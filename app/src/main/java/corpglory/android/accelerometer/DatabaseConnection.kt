@@ -61,12 +61,9 @@ class DatabaseConnection : Thread {
 
     private fun send() {
         if (buffer.size >= sendBufferSize) {
-            var sendBuffer = ArrayList<String>(sendBufferSize)
-
             val batchPoints = BatchPoints
                     .database(databaseName)
                     .tag("async", "true")
-                    .retentionPolicy("aRetentionPolicy")
                     .consistency(ConsistencyLevel.ALL)
                     .build()
 
