@@ -1,6 +1,6 @@
-# Android Acc App
+# Accelerometer2Influx
 
-This is an application that takes the x-y-z axis metrics from your Android phone acceleratometer and then sends this data to your influxDB.
+This is an Android application that takes the x-y-z axis metrics from your Android phone acceleratometer and sends it to your influxDB.
 To get started simply provide your InfluxDB address, login, password and database name in corresponding fields.
 
 Shake your phone to see different timeseries data comes to database. 
