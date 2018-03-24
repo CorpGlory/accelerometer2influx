@@ -6,4 +6,4 @@ To get started simply provide your influxDB address, login, password and databas
 
 Shake your phone to see different changes in timeseries data in your database. 
 
-![Screenshot](https://raw.githubusercontent.com/CorpGlory/accelerometer2influx/update_screenshot/screenshots/screenshot_upd.png)
+![Screenshot](https://raw.githubusercontent.com/CorpGlory/accelerometer2influx/update_screenshot/screenshots/promo.png)
