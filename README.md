@@ -11,4 +11,4 @@ Shake your phone to see different changes in timeseries data in your database. T
 
 # Credits
 
-Made by [CorpGlory Team](http://corpglory.com/)
+Made by [CorpGlory team](http://corpglory.com/)
