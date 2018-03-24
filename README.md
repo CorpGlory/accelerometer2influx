@@ -8,4 +8,6 @@ To get started simply provide your influxDB `address`, `login`, `password` and `
 
 Shake your phone to see different changes in timeseries data in your database. 
 
+# Credits
 
+Made by [CorpGlory Team](http://corpglory.com/)
